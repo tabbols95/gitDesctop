@@ -32,10 +32,14 @@ while True:
         elif (x == 'help') and (level == 0) and (len(command) == 4) and (complete == ''):
             gitResult.append('- [git] // поприветствовать систему git')
             gitResult.append('- [git log] // показать файлы логов')
-            gitResult.append('- [git copy Folder] // скопировать папку из секретной папки')
+            gitResult.append('- [git copy Folder] // скопировать папку из секретной дирректории')
+            gitResult.append('- [git push Folder] // скопировать папку в секретную дирректорию')
             gitResult.append('- [close] // выход из приложения')
         elif (x == 'copy') and (level == 1) and (complete == 'git') and ((len(commandDetail) - level) > 1):
             complete = 'copy'
+            continue
+        elif (x == 'push') and (level == 1) and (complete == 'git') and ((len(commandDetail) - level) > 1):
+            complete = 'push'
             continue
         elif (x == 'close') and (level == 0) and (len(command) == 5) and (complete == ''):
             exit()
@@ -46,6 +50,15 @@ while True:
                 shutil.copytree(r'.secretFiles/{0}'.format(x), r'.{0}'.format(x))
                 listsDirrectiry = os.listdir(r'.secretFiles/{}'.format(x))
                 gitResult.append('Скопированные файлы:')
+                for listsDirrectiryRead in listsDirrectiry:
+                    gitResult.append('- ' + listsDirrectiryRead)
+            except FileNotFoundError:
+                gitResult.append(err[1])
+        elif (x != '') and (level == 2) and (complete == 'push'):
+            try:
+                shutil.copytree(r'{0}'.format(x), r'.secretFiles/user/{0}'.format(x))
+                listsDirrectiry = os.listdir(r'{0}'.format(x))
+                gitResult.append('Загруженные файлы:')
                 for listsDirrectiryRead in listsDirrectiry:
                     gitResult.append('- ' + listsDirrectiryRead)
             except FileNotFoundError:
