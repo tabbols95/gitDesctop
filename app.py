@@ -14,12 +14,27 @@ while True:
     for x in commandDetail:
         level += 1
         # command
+
+        # command 0 level
+        # git приветствие
         if (x == 'git') and (level == 0) and (len(command) == 3):
             print('>> Hi, my name`s git')
             continue
-        if (x == 'git') and (level == 0) and (complete == ''):
+        elif (x == 'close') and (level == 0) and (complete == '') and (len(command) == 5):
+            exit()
+        # command [help]
+        elif (x == 'help') and (level == 0) and (complete == '') and (len(command) == 4):
+            gitResult.append('- [git] // поприветствовать систему git')
+            gitResult.append('- [git log] // показать файлы логов')
+            gitResult.append('- [git copy Folder] // скопировать папку из секретной дирректории')
+            gitResult.append('- [git push Folder] // скопировать папку в секретную дирректорию')
+            gitResult.append('- [close] // выход из приложения')
+        # command [git]
+        elif (x == 'git') and (level == 0) and (complete == ''):
             complete = 'git'
             continue
+
+        # command 1 level
         elif (x == 'log') and (level == 1) and (complete == 'git'):
             file = open(r'.secretFiles/controle.log', 'r', encoding='utf-8')
             reader = file.read().split('\n')
@@ -29,20 +44,12 @@ while True:
             file.close()
             complete = 'log'
             continue
-        elif (x == 'help') and (level == 0) and (len(command) == 4) and (complete == ''):
-            gitResult.append('- [git] // поприветствовать систему git')
-            gitResult.append('- [git log] // показать файлы логов')
-            gitResult.append('- [git copy Folder] // скопировать папку из секретной дирректории')
-            gitResult.append('- [git push Folder] // скопировать папку в секретную дирректорию')
-            gitResult.append('- [close] // выход из приложения')
         elif (x == 'copy') and (level == 1) and (complete == 'git') and ((len(commandDetail) - level) > 1):
             complete = 'copy'
             continue
         elif (x == 'push') and (level == 1) and (complete == 'git') and ((len(commandDetail) - level) > 1):
             complete = 'push'
             continue
-        elif (x == 'close') and (level == 0) and (len(command) == 5) and (complete == ''):
-            exit()
 
         # files
         elif (x != '') and (level == 2) and (complete == 'copy'):
